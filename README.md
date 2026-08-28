@@ -7,6 +7,7 @@ A simple, modular site. No build tools, no server, no database. Open `index.html
 ```
 ngu-site/
 ├── index.html                    ← homepage content & structure
+├── contact.html                   ← "Холбоо барих" page (Facebook, Instagram, YouTube, email, phone)
 ├── css/style.css                  ← all design tokens: colors, fonts, spacing, animation
 ├── js/main.js                      ← behavior: scroll reveal, sticky nav, mobile menu
 ├── images/                        ← homepage photos (team, vision, mission, etc.)
@@ -97,6 +98,9 @@ If the team grows and even that one step becomes a bottleneck, the real next ste
 
 ## Notes
 
-- The "Бидэнтэй холбогдох" (contact) buttons currently link to the `#contact` section on the homepage. Once you have a real contact channel (email, form, Instagram), update the `href` on those buttons across `index.html`, `blog/blog.html`, and `blog/post.html`.
+- The "Бидэнтэй холбогдох" nav buttons now link to `contact.html`, a dedicated page listing every way to reach NGU (Facebook, Instagram, YouTube, email, phone). Right now only the Facebook link (`facebook.com/nextgenerationunion`) is real — Instagram, YouTube, email, and phone are shown as "Тун удахгүй" (coming soon) placeholders because no real values were available. Once you have them, open `contact.html` and:
+  - For Instagram/YouTube: replace the `<span class="soon-badge">Тун удахгүй</span>` line in that card with a link, e.g. `<a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="btn btn-ghost">Хуудас руу очих →</a>` (copy the Facebook card's pattern).
+  - For email/phone: replace `<span class="value muted">Тун удахгүй нэмэгдэнэ</span>` with the real value, e.g. `<a class="value" href="mailto:info@nextgenunion.mn">info@nextgenunion.mn</a>`.
+- The homepage's bottom CTA panel has two buttons: "Бидэнтэй холбогдох" → `contact.html`, and "NGU-д нэгдэх" → the Facebook page directly (opens in a new tab).
 - The site respects `prefers-reduced-motion` and is responsive from desktop down to small phones.
 - Blog pages and the Composer tool pull in [marked.js](https://marked.js.org/) from a CDN for richer Markdown rendering; if that ever fails to load (no internet), a built-in fallback still handles paragraphs, headings, bold text, links, images, and bullet lists.

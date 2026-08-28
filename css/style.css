@@ -590,26 +590,7 @@
     padding:56px 0 40px;
     border-top:1px solid var(--glass-border);
   }
-  .foot-grid{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:24px;
-  }
-  .foot-brand{
-    font-family:var(--display);
-    font-size:1.3rem;
-    font-weight:600;
-  }
-  .foot-brand span{color:var(--mist-dim);font-family:var(--body);font-weight:400;font-size:.86rem;display:block;margin-top:6px;}
-  .foot-links{display:flex;gap:26px;flex-wrap:wrap;}
-  .foot-links a{font-size:.86rem;color:var(--mist-dim);transition:color .25s ease;}
-  .foot-links a:hover{color:var(--mist);}
   .foot-bottom{
-    margin-top:36px;
-    padding-top:24px;
-    border-top:1px solid var(--glass-border);
     display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     font-size:.78rem;
     color:var(--mist-dim);
