@@ -59,15 +59,3 @@
     revealEls.forEach(el => io.observe(el));
   }
 
-  // Parallax blobs on scroll (subtle, desktop-only feel — skipped
-  // entirely on touch/small screens to save battery + avoid jank)
-  if (!prefersReduced && window.innerWidth > 768) {
-    const blobs = document.querySelectorAll('.blob');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      blobs.forEach((b, i) => {
-        b.style.transform = `translateY(${y * (0.03 + i*0.015)}px)`;
-      });
-    }, {passive:true});
-  }
-
