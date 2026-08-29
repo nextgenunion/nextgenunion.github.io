@@ -51,7 +51,7 @@
     const io = new IntersectionObserver((entries)=>{
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(()=> entry.target.classList.add('in'), i * 65);
+          setTimeout(()=> entry.target.classList.add('in'), i * 40);
           io.unobserve(entry.target);
         }
       });
