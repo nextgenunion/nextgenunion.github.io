@@ -27,6 +27,25 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;width:100%;overflow-x:hidden;}
 
+  /* ---------- Film curtain ----------
+     A brief hold on black before the page reveals itself, like a
+     film opening from the dark. Pure CSS, no JS needed. */
+  .film-curtain{
+    position:fixed;
+    inset:0;
+    background:#050408;
+    z-index:200;
+    pointer-events:none;
+    animation:curtainLift 1.3s cubic-bezier(.4,0,.2,1) forwards;
+    animation-delay:.15s;
+  }
+  @keyframes curtainLift{
+    to{opacity:0;visibility:hidden;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .film-curtain{display:none;}
+  }
+
   body{
     font-family:var(--body);
     background:var(--ink);

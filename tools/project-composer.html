@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Төслийн Хэрэгсэл — NGU</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Reuses the site's own design tokens + project card styles, so
+     the preview on the right looks exactly like the live site. -->
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+  body{overflow-x:auto;}
+  .bg-field{position:fixed;}
+
+  .composer-wrap{
+    position:relative;
+    z-index:1;
+    max-width:1300px;
+    margin:0 auto;
+    padding:56px 32px 120px;
+  }
+  .composer-head{max-width:760px;margin-bottom:20px;}
+  .composer-head h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(1.8rem,3.4vw,2.6rem);
+  }
+  .composer-head p{margin-top:14px;color:var(--mist-dim);font-size:1rem;line-height:1.6;}
+  .composer-note{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:16px;
+    font-family:var(--mono);font-size:.78rem;
+    color:var(--gold);
+    background:rgba(242,178,99,.1);
+    border:1px solid rgba(242,178,99,.28);
+    padding:8px 14px;border-radius:100px;
+  }
+
+  .composer-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    margin-top:40px;
+    align-items:start;
+  }
+  .composer-panel{padding:30px;}
+  .composer-panel + .composer-panel{margin-top:20px;}
+  .composer-panel h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.2rem;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .composer-panel h2 .step{
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--ember-2);
+    border:1px solid rgba(255,145,102,.4);
+    padding:3px 9px;
+    border-radius:100px;
+  }
+  .composer-panel .hint{font-size:.82rem;color:var(--mist-dim);margin-bottom:16px;line-height:1.5;}
+
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-size:.8rem;
+    font-weight:600;
+    color:var(--mist-dim);
+    margin-bottom:7px;
+    letter-spacing:.02em;
+  }
+  .field input[type=text],
+  .field input[type=url],
+  .field textarea{
+    width:100%;
+    padding:11px 14px;
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--glass-border);
+    color:var(--mist);
+    font-family:var(--body);
+    font-size:.94rem;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--ember);
+    background:rgba(255,255,255,.08);
+  }
+  .field textarea{resize:vertical;line-height:1.55;}
+  .field.mono input{font-family:var(--mono);font-size:.86rem;}
+  .field-row{display:grid;grid-template-columns:80px 1fr;gap:14px;}
+
+  .composer-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;}
+
+  .error-box{
+    display:none;
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:10px;
+    background:rgba(255,107,74,.1);
+    border:1px solid rgba(255,107,74,.35);
+    color:var(--ember-2);
+    font-size:.86rem;
+  }
+  .error-box.show{display:block;}
+
+  .output-panel{display:none;margin-top:20px;}
+  .output-panel.show{display:block;}
+  .output-panel .filename{
+    font-family:var(--mono);
+    color:var(--gold);
+  }
+  .composer-steps{margin-top:14px;padding-left:20px;}
+  .composer-steps li{margin-bottom:8px;font-size:.9rem;color:var(--mist-dim);line-height:1.55;}
+  .composer-steps code{
+    background:rgba(255,255,255,.07);
+    padding:2px 7px;
+    border-radius:5px;
+    font-family:var(--mono);
+    font-size:.85em;
+    color:var(--mist);
+  }
+
+  /* ---------- Existing projects list (reorder / edit / delete) ---------- */
+  .plist{display:flex;flex-direction:column;gap:10px;}
+  .plist-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--glass-border);
+    border-radius:10px;
+  }
+  .plist-item .picon{
+    font-size:1.2rem;width:38px;height:38px;flex-shrink:0;
+    border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(255,107,74,.2), rgba(242,178,99,.12));
+    border:1px solid rgba(255,107,74,.28);
+  }
+  .plist-item .pinfo{flex:1;min-width:0;}
+  .plist-item .pinfo strong{display:block;font-size:.92rem;color:var(--mist);}
+  .plist-item .pinfo span{display:block;font-size:.78rem;color:var(--mist-dim);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .plist-item .pactions{display:flex;gap:4px;flex-shrink:0;}
+  .plist-item .pactions button{
+    background:none;border:1px solid transparent;color:var(--mist-dim);
+    cursor:pointer;font-size:.95rem;padding:6px 8px;border-radius:7px;
+    transition:color .2s ease, background .2s ease;
+  }
+  .plist-item .pactions button:hover{color:var(--mist);background:rgba(255,255,255,.08);}
+  .plist-item .pactions button.danger:hover{color:var(--ember-2);}
+  .plist-empty{color:var(--mist-dim);font-size:.88rem;padding:8px 2px;}
+  .editing-badge{
+    display:none;
+    align-items:center;gap:8px;
+    margin-bottom:16px;
+    font-family:var(--mono);font-size:.78rem;
+    color:var(--gold);
+    background:rgba(242,178,99,.1);
+    border:1px solid rgba(242,178,99,.28);
+    padding:8px 14px;border-radius:100px;
+  }
+  .editing-badge.show{display:inline-flex;}
+
+  /* ---------- Live preview ---------- */
+  .preview-shell{position:sticky;top:24px;}
+  .preview-frame-inner{padding:6px;}
+  .preview-empty{color:var(--mist-dim);font-size:.9rem;text-align:center;padding:40px 20px;}
+
+  @media (max-width:1080px){
+    .composer-grid{grid-template-columns:1fr;}
+    .preview-shell{position:static;}
+  }
+  @media (max-width:640px){
+    .composer-wrap{padding:40px 18px 90px;}
+    .field-row{grid-template-columns:1fr;}
+    .composer-panel{padding:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-field">
+  <div class="chevron-field"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<div class="composer-wrap">
+
+  <div class="composer-head">
+    <div class="eyebrow"><span class="chev">&raquo;</span> NGU хэрэгсэл</div>
+    <h1>Төслийн Хэрэгсэл</h1>
+    <p>Код бичихгүйгээр "Төслүүд" хэсэгт шинэ карт нэмэх, засварлах, устгах, эрэмбэ өөрчлөх боломжтой. Доор өөрчлөлтөө хийгээд, шинэчилсэн <code>projects-data.js</code> файлыг татаж авна.</p>
+    <div class="composer-note">🔒 Бүх зүйл зөвхөн таны компьютер дээр боловсроно — юу ч сервер рүү илгээгдэхгүй.</div>
+  </div>
+
+  <div class="composer-grid">
+    <div>
+
+      <div class="composer-panel glass">
+        <h2><span class="step">1</span> Одоо байгаа төслүүд</h2>
+        <p class="hint">Эрэмбэ өөрчлөхийн тулд сум дарна уу. Засах бол ✎, устгах бол 🗑 дарна уу.</p>
+        <div class="plist" id="plist"></div>
+      </div>
+
+      <div class="composer-panel glass">
+        <h2><span class="step">2</span> Төсөл нэмэх / засах</h2>
+        <div class="editing-badge" id="editingBadge">✎ Одоо засварлаж байна — <span id="editingName"></span></div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="iconInput">Icon</label>
+            <input type="text" id="iconInput" placeholder="🎵" maxlength="4">
+          </div>
+          <div class="field">
+            <label for="titleInput">Гарчиг</label>
+            <input type="text" id="titleInput" placeholder="Жишээ нь: Next Gen Worship">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tagInput">Ангилал (карт дээрх богино шошго)</label>
+          <input type="text" id="tagInput" list="tagOptions" placeholder="Цахим төсөл">
+          <datalist id="tagOptions">
+            <option value="Цахим төсөл"></option>
+            <option value="Хамтын ажиллагаа"></option>
+            <option value="Нийгмийн төсөл"></option>
+            <option value="Апп"></option>
+          </datalist>
+        </div>
+
+        <div class="field">
+          <label for="descInput">Тайлбар (1–2 өгүүлбэр)</label>
+          <textarea id="descInput" rows="3" placeholder="Төслийн тухай товч тайлбар…"></textarea>
+        </div>
+
+        <div class="field mono">
+          <label for="urlInput">Холбоос (URL)</label>
+          <input type="url" id="urlInput" placeholder="https://example.com">
+        </div>
+
+        <div class="composer-actions">
+          <button type="button" class="btn btn-primary" id="saveBtn">Жагсаалтад нэмэх &nbsp;→</button>
+          <button type="button" class="btn btn-ghost" id="cancelEditBtn" style="display:none;">Цуцлах</button>
+        </div>
+        <div class="error-box" id="errorBox"></div>
+      </div>
+
+      <div class="composer-panel glass">
+        <h2><span class="step">3</span> Татаж авах</h2>
+        <p class="hint">Дээрх жагсаалт хүссэн байдалдаа орсны дараа дарна уу.</p>
+        <div class="composer-actions">
+          <button type="button" class="btn btn-primary" id="generateBtn">projects-data.js татах &nbsp;→</button>
+        </div>
+        <div class="output-panel" id="outputPanel">
+          <p class="hint" style="margin-bottom:0;">✅ <span class="filename">projects-data.js</span> татагдлаа. Нийтлэхийн тулд:</p>
+          <ol class="composer-steps">
+            <li>Татагдсан файлаар <code>projects/projects-data.js</code> файлыг орлуулна (нэрийг яг адилхан хадгална).</li>
+            <li>Хадгалаад, сайтаа дахин байршуулна (эсвэл <code>index.html</code>-г browser дээр дахин ачаалж шалгана уу).</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---------- Live preview ---------- -->
+    <div class="preview-shell">
+      <div class="composer-panel glass" style="padding:20px 30px;">
+        <h2 style="margin-bottom:4px;">Урьдчилан харах</h2>
+        <p class="hint" style="margin-bottom:0;">"Төслүүд" хуудсан дээр ойролцоогоор ингэж харагдана.</p>
+      </div>
+      <div class="composer-panel glass preview-frame">
+        <div class="preview-frame-inner">
+          <div class="project-grid" id="previewGrid">
+            <p class="preview-empty">Жагсаалт хоосон байна.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../projects/projects-data.js"></script>
+<script src="project-composer.js"></script>
+</body>
+</html>
