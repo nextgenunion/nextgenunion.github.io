@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Inter:wght@900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
 <style>
@@ -23,7 +23,6 @@
     display:grid;
     grid-template-columns:repeat(3, 1fr);
     gap:22px;
-    margin-bottom:22px;
   }
   .contact-card{
     padding:32px 28px;
@@ -42,6 +41,7 @@
     padding:8px;
     display:grid;
     grid-template-columns:1fr 1fr;
+    margin-bottom:22px;
   }
   .contact-direct-item{
     padding:26px 30px;
@@ -69,6 +69,8 @@
 </style>
 </head>
 <body>
+
+<div class="film-curtain" aria-hidden="true"></div>
 
 <div class="bg-field">
   <div class="chevron-field"></div>
@@ -104,6 +106,17 @@
 
   <section>
     <div class="wrap">
+      <div class="contact-direct glass reveal">
+        <div class="contact-direct-item">
+          <span class="label">Имэйл</span>
+          <a class="value" href="mailto:info@example.com">info@example.com</a>
+        </div>
+        <div class="contact-direct-item">
+          <span class="label">Утас</span>
+          <a class="value" href="tel:+97600000000">+976 0000 0000</a>
+        </div>
+      </div>
+
       <div class="contact-grid">
 
         <div class="contact-card glass reveal">
@@ -127,17 +140,6 @@
           <a href="https://example.com" target="_blank" rel="noopener" class="btn btn-ghost">Суваг руу очих &nbsp;→</a>
         </div>
 
-      </div>
-
-      <div class="contact-direct glass reveal">
-        <div class="contact-direct-item">
-          <span class="label">Имэйл</span>
-          <a class="value" href="mailto:info@example.com">info@example.com</a>
-        </div>
-        <div class="contact-direct-item">
-          <span class="label">Утас</span>
-          <a class="value" href="tel:+97600000000">+976 0000 0000</a>
-        </div>
       </div>
     </div>
   </section>
