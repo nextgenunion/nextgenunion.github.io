@@ -14,8 +14,8 @@
 const NGU_PROJECTS = [
   {
     title: "Next Gen Worship",
-    tag: "Цахим төсөл",
-    description: "Адвентист чуулганы дуулалын дижитал ном — дуулал хайх, үзэх боломжтой цахим хэрэгсэл.",
+    tag: "АПП",
+    description: "Адвентист дуунуудаас бүрдсэн дижитал дууны ном",
     url: "https://nextgenunion.github.io/ngworship/",
     icon: "🎵"
   }
