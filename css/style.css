@@ -39,6 +39,7 @@
     animation:curtainLift 1.3s cubic-bezier(.4,0,.2,1) forwards;
     animation-delay:.15s;
   }
+  .film-curtain.no-curtain{display:none;}
   @keyframes curtainLift{
     to{opacity:0;visibility:hidden;}
   }

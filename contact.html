@@ -70,7 +70,20 @@
 </head>
 <body>
 
-<div class="film-curtain" aria-hidden="true"></div>
+<div class="film-curtain" aria-hidden="true" id="filmCurtain"></div>
+<script>
+  /* The curtain should only play once per visit to the site, not
+     on every internal page navigation. sessionStorage persists for
+     the browser tab/session, so the flag survives clicking between
+     pages but resets in a fresh tab. */
+  (function(){
+    if (sessionStorage.getItem('nguVisited')) {
+      document.getElementById('filmCurtain').classList.add('no-curtain');
+    } else {
+      sessionStorage.setItem('nguVisited', '1');
+    }
+  })();
+</script>
 
 <div class="bg-field">
   <div class="chevron-field"></div>
