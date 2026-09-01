@@ -4,6 +4,12 @@
    here updates the whole site automatically.
    ============================================================ */
 :root{
+    /* Tell browsers (esp. Samsung Internet / Android "force dark")
+       this site is designed for light mode only, so they don't
+       auto-invert or recolor things. See also the
+       <meta name="color-scheme" content="light only"> tag in each
+       page's <head> — the two work together. */
+    color-scheme: light only;
     --ink:#14121c;
     --ink-2:#1b1826;
     --dusk:#241f33;
