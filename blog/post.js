@@ -27,7 +27,7 @@ document.addEventListener('ngu:posts-ready', function(){
   if (metaDesc) metaDesc.setAttribute('content', post.excerpt);
 
   root.innerHTML = `
-    <div class="post-cover"><img src="${post.cover}" alt="${post.title}"></div>
+    ${post.cover ? `<div class="post-cover"><img src="${post.cover}" alt="${post.title}"></div>` : ""}
     <div class="post-header">
       <span class="post-tag">${post.tag}</span>
       <h1>${post.title}</h1>

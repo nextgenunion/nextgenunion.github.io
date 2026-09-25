@@ -21,7 +21,8 @@
      its folder from blog/posts/.
    ============================================================ */
 const NGU_POST_SLUGS = [
-  "ngu-uusgen-baiguulah-tsuglaan",
-  "gishuunchleliin-hutulbur-ehellee",
-  "oiryn-tuluvlugu-mini-olimp-lig"
+  "zaluuсuudiin-shine-jil",
+  "youth-alive",
+  "ngu-mini-olympics",
+  "ngu-hamtyn-alkhalt"
 ];
