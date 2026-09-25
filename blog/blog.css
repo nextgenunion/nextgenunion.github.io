@@ -228,3 +228,19 @@
   .post-body .post-gallery{grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));}
   .post-nav-links{gap:14px;}
 }
+
+/* Branded placeholder for posts without event photos. */
+.post-card-placeholder{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  color:var(--gold);
+  font-family:var(--display);
+  font-size:clamp(2rem, 5vw, 3.5rem);
+  font-weight:600;
+  letter-spacing:.2em;
+  background:
+    radial-gradient(circle at 75% 24%, rgba(242,178,99,.18), transparent 34%),
+    linear-gradient(135deg, rgba(255,107,74,.13), rgba(16,24,35,.96));
+}
