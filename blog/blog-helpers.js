@@ -79,13 +79,20 @@ function nguInlineMarkdown(text){
 function nguPostCardHTML(post, basePath){
   basePath = basePath || '';
   return `
-    <a class="post-card reveal in" href="${basePath}post.html?slug=${encodeURIComponent(post.slug)}">
-      <div class="post-card-photo"><img src="${basePath}${post.cover}" alt="${post.title}" loading="lazy"></div>
-      <div class="post-card-body">
+    <a class="post-card" href="${basePath}post.html?slug=${encodeURIComponent(post.slug)}">
+      <div class="post-card-photo">
+        <img src="${basePath}${post.cover}" alt="${post.title}" loading="lazy">
         <span class="post-tag">${post.tag}</span>
+      </div>
+      <div class="post-card-body">
         <h3>${post.title}</h3>
         <p>${post.excerpt}</p>
-        <div class="post-meta">${nguFormatDate(post.date)} · ${post.author}</div>
+        <div class="post-meta">${nguPostMetaHTML(post)}</div>
       </div>
     </a>`;
+}
+
+/** "date  author" line shared by cards and article headers. */
+function nguPostMetaHTML(post){
+  return `<span>${nguFormatDate(post.date)}</span> <span style="margin-left:14px">${post.author}</span>`;
 }

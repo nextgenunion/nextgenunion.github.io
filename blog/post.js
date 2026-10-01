@@ -14,8 +14,8 @@ document.addEventListener('ngu:posts-ready', function(){
     root.innerHTML = `
       <div class="post-header" style="text-align:center;">
         <h1>Нийтлэл олдсонгүй</h1>
-        <p style="margin-top:16px;color:var(--mist-dim);">Хайж буй нийтлэл устгагдсан, нийтлэгдээгүй, эсвэл хаяг буруу байна.</p>
-        <a href="blog.html" class="btn btn-primary" style="margin-top:28px;display:inline-flex;">Бүх нийтлэл рүү буцах</a>
+        <p style="margin-top:16px;color:var(--navy-soft);">Хайж буй нийтлэл устгагдсан, нийтлэгдээгүй, эсвэл хаяг буруу байна.</p>
+        <a href="blog.html" class="btn btn-sun" style="margin-top:28px;">Бүх нийтлэл рүү буцах</a>
       </div>`;
     document.title = 'Нийтлэл олдсонгүй — NGU';
     return;
@@ -31,7 +31,7 @@ document.addEventListener('ngu:posts-ready', function(){
     <div class="post-header">
       <span class="post-tag">${post.tag}</span>
       <h1>${post.title}</h1>
-      <div class="post-meta">${nguFormatDate(post.date)} · ${post.author}</div>
+      <div class="post-meta">${nguPostMetaHTML(post)}</div>
     </div>
     <div class="post-body">${nguRenderMarkdown(post.body)}</div>
   `;

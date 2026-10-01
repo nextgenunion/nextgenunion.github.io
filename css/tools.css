@@ -1,0 +1,77 @@
+/* ============================================================
+   TOOLS — dark utility styling for the Post Composer and
+   Project Composer pages (tools/*.html).
+
+   These pages keep a calm dark interface so the form is easy on
+   the eyes, but use the NGU palette. The "live preview" panel on
+   the right is switched to the light site surface and uses the
+   real site card/article styles (css/cards.css, blog/blog.css),
+   so what you see there matches the published site.
+   ============================================================ */
+:root{
+  /* Names used by the composer pages' own inline styles */
+  --ink:#0E1038;
+  --ink-2:#161850;
+  --dusk:#20236B;
+  --ember:#FF7EB6;
+  --ember-2:#FFA3C9;
+  --gold:#FFD43B;
+  --violet:#8E97FF;
+  --mist:#F2F1FF;
+  --mist-dim:#B8BAF0;
+  --glass:rgba(255,255,255,.07);
+  --glass-strong:rgba(255,255,255,.12);
+  --glass-border:rgba(255,255,255,.2);
+  --shadow:6px 8px 0 rgba(0,0,0,.3);
+  --radius:22px;
+  --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;width:100%;}
+body{
+  font-family:var(--body);
+  background:var(--ink);color:var(--mist);
+  line-height:1.6;width:100%;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:var(--ink);}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+/* decorative background layers from the old design are not used here */
+.bg-field{display:none;}
+
+.glass{
+  background:var(--glass);
+  border:1.5px solid var(--glass-border);
+  border-radius:var(--radius);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:600;font-size:.95rem;
+  color:var(--gold);margin-bottom:14px;
+}
+.eyebrow .chev{color:var(--ember);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--body);font-weight:600;font-size:.95rem;line-height:1;
+  padding:14px 24px;border-radius:999px;
+  border:2px solid transparent;cursor:pointer;
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--gold);color:var(--ink);}
+.btn-ghost{background:transparent;color:var(--mist);border-color:var(--glass-border);}
+.btn-ghost:hover{background:var(--glass-strong);}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+  outline:3px solid var(--gold);outline-offset:2px;
+}
+
+/* Live preview = light "site window" */
+.preview-frame{background:var(--chalk);color:var(--navy);border-color:var(--chalk);}
+.preview-frame .preview-empty{color:var(--navy-soft);}
+.preview-frame .post-card,.preview-frame .project-card{pointer-events:none;}

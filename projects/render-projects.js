@@ -6,13 +6,13 @@
 (function(){
   function projectCardHTML(p){
     return `
-      <a class="project-card reveal in" href="${p.url}" target="_blank" rel="noopener">
+      <a class="project-card" href="${p.url}" target="_blank" rel="noopener">
         <div class="project-icon">${p.icon || '🔗'}</div>
         <div class="project-card-body">
           <span class="project-tag">${p.tag}</span>
           <h3>${p.title}</h3>
           <p>${p.description}</p>
-          <span class="project-link">Нээх &nbsp;↗</span>
+          <span class="project-link">Нээх</span>
         </div>
       </a>`;
   }

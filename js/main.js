@@ -1,61 +1,102 @@
-// Nav shrink on scroll
-  const nav = document.getElementById('siteNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  }, {passive:true});
+/* ============================================================
+   NGU SITE BEHAVIOUR
+   1. Mobile menu
+   2. Draggable photo stickers (hero + 404 page)
+   ============================================================ */
 
-  // Mobile nav toggle -> dropdown (class-based, so it never gets stuck
-  // when the window is resized or the device is rotated)
+/* ---------- 1. Mobile menu ---------- */
+(function(){
   const toggle = document.querySelector('.nav-toggle');
-  const links = document.querySelector('.nav-links');
+  const links  = document.querySelector('.nav-links');
+  if (!toggle || !links) return;
 
-  function closeMenu(){
-    links.classList.remove('open');
-    toggle.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
+  function setMenu(open){
+    links.classList.toggle('open', open);
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.documentElement.style.overflow = open ? 'hidden' : '';
   }
-  function openMenu(){
-    links.classList.add('open');
-    toggle.classList.add('open');
-    toggle.setAttribute('aria-expanded', 'true');
-  }
-
   toggle.setAttribute('aria-expanded', 'false');
-  toggle.addEventListener('click', () => {
-    links.classList.contains('open') ? closeMenu() : openMenu();
-  });
+  toggle.addEventListener('click', () => setMenu(!links.classList.contains('open')));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('resize', () => { if (window.innerWidth > 1060) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+})();
 
-  document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.addEventListener('click', closeMenu);
-  });
+/* ---------- 2. Draggable stickers ----------
+   Every .sticker inside a [data-board] can be dragged with a
+   mouse or finger, or nudged with the arrow keys. Stickers stay
+   inside the nearest [data-bounds] area and the last one you
+   touch comes to the front. Position is only kept until reload. */
+(function(){
+  const boards = document.querySelectorAll('[data-board]');
+  if (!boards.length) return;
+  let top = 10;
 
-  // Close the mobile menu (and clear any stale state) if the viewport
-  // grows back into desktop size, or on outside click
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 920) closeMenu();
-  });
-  document.addEventListener('click', (e) => {
-    if (links.classList.contains('open') &&
-        !links.contains(e.target) &&
-        !toggle.contains(e.target)) {
-      closeMenu();
-    }
-  });
+  boards.forEach(board => {
+    const bounds = board.closest('[data-bounds]') || board;
+    board.querySelectorAll('.sticker').forEach(el => {
+      let ox = 0, oy = 0;           // current offset in px
+      let startX, startY, baseX, baseY, rect0, area, dragging = false, moved = false;
 
-  // Scroll reveal
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealEls = document.querySelectorAll('.reveal');
-  if (prefersReduced) {
-    revealEls.forEach(el => el.classList.add('in'));
-  } else {
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(()=> entry.target.classList.add('in'), i * 40);
-          io.unobserve(entry.target);
-        }
+      const img = el.querySelector('img');
+      el.tabIndex = 0;
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label', (img && img.alt ? img.alt + '. ' : '') + 'Суман товчоор зөөж болно');
+
+      function apply(){
+        el.style.setProperty('--x', ox + 'px');
+        el.style.setProperty('--y', oy + 'px');
+      }
+      function clampDelta(dx, dy){
+        const pad = 24;
+        const minDx = area.left + pad - rect0.left, maxDx = area.right - pad - rect0.right;
+        const minDy = area.top + pad - rect0.top,  maxDy = area.bottom - pad - rect0.bottom;
+        return [
+          Math.min(Math.max(dx, Math.min(minDx, 0)), Math.max(maxDx, 0)),
+          Math.min(Math.max(dy, Math.min(minDy, 0)), Math.max(maxDy, 0))
+        ];
+      }
+
+      el.addEventListener('pointerdown', e => {
+        if (e.button !== undefined && e.button !== 0) return;
+        dragging = true; moved = false;
+        startX = e.clientX; startY = e.clientY; baseX = ox; baseY = oy;
+        rect0 = el.getBoundingClientRect();
+        area  = bounds.getBoundingClientRect();
+        el.style.zIndex = ++top;
+        el.classList.add('dragging');
+        el.setPointerCapture(e.pointerId);
+        e.preventDefault();
       });
-    }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
-    revealEls.forEach(el => io.observe(el));
-  }
+      el.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        const [dx, dy] = clampDelta(e.clientX - startX, e.clientY - startY);
+        if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+        ox = baseX + dx; oy = baseY + dy;
+        apply();
+      });
+      function end(e){
+        if (!dragging) return;
+        dragging = false;
+        el.classList.remove('dragging');
+        if (el.hasPointerCapture && el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+      }
+      el.addEventListener('pointerup', end);
+      el.addEventListener('pointercancel', end);
 
+      el.addEventListener('keydown', e => {
+        const step = e.shiftKey ? 40 : 16;
+        const map = { ArrowLeft:[-step,0], ArrowRight:[step,0], ArrowUp:[0,-step], ArrowDown:[0,step] };
+        if (!map[e.key]) return;
+        e.preventDefault();
+        rect0 = el.getBoundingClientRect();
+        area  = bounds.getBoundingClientRect();
+        const [dx, dy] = clampDelta(map[e.key][0], map[e.key][1]);
+        ox += dx; oy += dy;
+        el.style.zIndex = ++top;
+        apply();
+      });
+    });
+  });
+})();

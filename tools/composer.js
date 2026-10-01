@@ -346,7 +346,7 @@ function nguDownloadBlob(blob, filename){
       <div class="post-header">
         <span class="post-tag">${nguEscapeHtml(tagInput.value.trim() || 'Ангилал')}</span>
         <h1>${nguEscapeHtml(title || 'Гарчгийн жишээ')}</h1>
-        <div class="post-meta">${nguFormatDate(dateInput.value || nguTodayISO())} · ${nguEscapeHtml(authorInput.value.trim() || 'NGU баг')}</div>
+        <div class="post-meta"><span>${nguFormatDate(dateInput.value || nguTodayISO())}</span> <span style="margin-left:14px">${nguEscapeHtml(authorInput.value.trim() || 'NGU баг')}</span></div>
       </div>
       <div class="post-body">${bodyHtml}</div>
     `;

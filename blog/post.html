@@ -7,57 +7,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Нийтлэл — NGU</title>
 <meta name="description" content="NGU — Next Gen Union-ийн нийтлэл.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='5' y='5' width='54' height='54' rx='16' fill='%23FFD43B' stroke='%230E1038' stroke-width='5'/%3E%3Cpath d='M20 44V20l24 24V20' fill='none' stroke='%230E1038' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+<!-- Colors + fonts: css/tokens.css · Layout: css/style.css · Cards: css/cards.css -->
+<link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="../css/cards.css">
+<link rel="stylesheet" href="../blog/blog.css">
 </head>
 <body>
 
-<div class="film-curtain" aria-hidden="true" id="filmCurtain"></div>
-<script>
-  /* The curtain should only play once per visit to the site, not
-     on every internal page navigation. sessionStorage persists for
-     the browser tab/session, so the flag survives clicking between
-     pages but resets in a fresh tab. */
-  (function(){
-    if (sessionStorage.getItem('nguVisited')) {
-      document.getElementById('filmCurtain').classList.add('no-curtain');
-    } else {
-      sessionStorage.setItem('nguVisited', '1');
-    }
-  })();
-</script>
-
-<div class="bg-field">
-  <div class="chevron-field"></div>
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
-
-<nav class="nav" id="siteNav">
-  <div class="nav-inner wrap">
-    <a href="../index.html#top" class="brand"><span class="mark">&raquo;</span> NGU</a>
-    <div class="nav-links">
+<nav class="nav" id="siteNav" aria-label="Үндсэн цэс">
+  <div class="nav-inner">
+    <a href="../index.html#top" class="brand" aria-label="NGU — нүүр хуудас"><span class="mark">NGU</span><span class="word">Next Gen Union</span></a>
+    <div class="nav-links" id="navLinks">
       <a href="../index.html#vision">Алсын хараа</a>
       <a href="../index.html#mission">Зорилго</a>
       <a href="../index.html#directions">Чиглэл</a>
       <a href="../index.html#team">Баг</a>
-      <a href="blog.html">Нийтлэл</a>
+      <a href="../blog/blog.html" aria-current="page">Нийтлэл</a>
       <a href="../projects/projects.html">Төслүүд</a>
       <a href="../contact.html" class="mobile-cta-link">Бидэнтэй холбогдох</a>
     </div>
-    <a href="../contact.html" class="nav-cta">Бидэнтэй холбогдох <span class="nav-cta-arrow">→</span></a>
-    <button class="nav-toggle" aria-label="Цэс" aria-expanded="false"><span class="bars"><span></span><span></span></span></button>
+    <a href="../contact.html" class="nav-cta">Бидэнтэй холбогдох</a>
+    <button class="nav-toggle" aria-label="Цэс" aria-expanded="false" aria-controls="navLinks"><span class="bars"><span></span><span></span></span></button>
   </div>
 </nav>
 
-<main>
+<main style="position:relative;">
+  <div class="post-band"></div>
   <article class="post-article wrap">
     <a href="blog.html" class="post-back">&larr; Бүх нийтлэл</a>
     <div id="postRoot"><!-- filled in by post.js --></div>
@@ -67,9 +46,18 @@
 
 <footer>
   <div class="wrap">
+    <div class="foot-top">
+      <a href="../index.html#top" class="brand" aria-label="NGU — нүүр хуудас"><span class="mark">NGU</span><span class="word">Next Gen Union</span></a>
+      <nav class="foot-links" aria-label="Хөлийн цэс">
+        <a href="../blog/blog.html">Нийтлэл</a>
+        <a href="../projects/projects.html">Төслүүд</a>
+        <a href="../contact.html">Бидэнтэй холбогдох</a>
+        <a href="https://www.facebook.com/nextgenerationunion" target="_blank" rel="noopener">Facebook</a>
+      </nav>
+    </div>
     <div class="foot-bottom">
-      <span>© 2026 NEXT GEN UNION</span>
-      <span>ОЮУТАН · ЗАЛУУС · МАНЛАЙЛАЛ · ӨСВӨР ҮЕ</span>
+      <span>© 2026 Next Gen Union</span>
+      <span>Оюутан, залуус, манлайлал, өсвөр үе</span>
     </div>
   </div>
 </footer>

@@ -8,8 +8,12 @@ A simple, modular site. No build tools, no server, no database. Open `index.html
 ngu-site/
 ├── index.html                    ← homepage content & structure
 ├── contact.html                   ← "Холбоо барих" page (Facebook, Instagram, YouTube, email, phone)
-├── css/style.css                  ← all design tokens: colors, fonts, spacing, animation
-├── js/main.js                      ← behavior: scroll reveal, sticky nav, mobile menu
+├── css/tokens.css                 ← ★ colors + fonts (change the whole look here)
+├── css/style.css                  ← page layout and sections
+├── css/cards.css                  ← blog + project card styles
+├── css/tools.css                  ← dark styling for the composer tools only
+├── fonts/                         ← Rubik + Caveat (self-hosted, include Ү and Ө)
+├── js/main.js                      ← mobile menu + draggable hero photos
 ├── images/                        ← homepage photos (team, vision, mission, etc.)
 │
 ├── blog/
@@ -36,7 +40,7 @@ ngu-site/
 
 ## Editing the homepage
 
-Open `index.html` in any text editor — each section is marked with a comment (`<!-- ============ MISSION ============ -->`). Edit the text between the tags. Colors and fonts are single-source variables at the top of `css/style.css`. Photos are plain files in `images/` — replace a file (same name) to swap a photo.
+Open `index.html` in any text editor — each section is marked with a comment (`<!-- ============ MISSION ============ -->`). Edit the text between the tags. Colors and fonts are single-source variables in `css/tokens.css`. Photos are plain files in `images/` — replace a file (same name) to swap a photo.
 
 ---
 
@@ -104,3 +108,11 @@ If the team grows and even that one step becomes a bottleneck, the real next ste
 - The homepage's bottom CTA panel has two buttons: "Бидэнтэй холбогдох" → `contact.html`, and "NGU-д нэгдэх" → the Facebook page directly (opens in a new tab).
 - The site respects `prefers-reduced-motion` and is responsive from desktop down to small phones.
 - Blog pages and the Composer tool pull in [marked.js](https://marked.js.org/) from a CDN for richer Markdown rendering; if that ever fails to load (no internet), a built-in fallback still handles paragraphs, headings, bold text, links, images, and bullet lists.
+
+## Design notes (v12)
+
+- Look: a youth-group bulletin board. Photos are taped polaroids, buttons and cards are outlined stickers with a flat offset shadow, sections are colored sheets that stack as you scroll.
+- Palette (in `css/tokens.css`): `--blue` #2B3AFF, `--sun` #FFD43B, `--pink` #FF7EB6, `--mint` #8CF0C6, `--navy` #0E1038, `--chalk` #F2F1FF.
+- Fonts: Rubik for everything, Caveat for handwritten captions. Both cover Mongolian Ү/Ө. Pick any replacement with the same coverage.
+- The hero photos can be dragged (mouse, touch, or arrow keys when focused). See `js/main.js`.
+- The homepage ticker words are in `index.html`, search for `ticker-set` (two identical copies; edit both).
