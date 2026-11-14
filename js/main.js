@@ -2,6 +2,7 @@
    NGU SITE BEHAVIOUR
    1. Mobile menu
    2. Draggable photo stickers (hero + 404 page)
+   3. Offline support (sw-root.js)
    ============================================================ */
 
 /* ---------- 1. Mobile menu ---------- */
@@ -99,4 +100,18 @@
       });
     });
   });
+})();
+
+/* ---------- 3. Offline support ----------
+   Registers sw-root.js (in the site root): our own offline page instead of the
+   browser's, and the app addresses without a trailing slash opening offline.
+   Needs https (or localhost); on file:// or an older browser it does nothing. */
+(function(){
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const script = document.currentScript;   // this file: …/js/main.js
+    if (!script || !script.src) return;
+    navigator.serviceWorker.register(new URL('../sw-root.js', script.src).href, { scope: '/', updateViaCache: 'none' })
+      .catch(() => { /* not https, or hosted somewhere without this file: ignore */ });
+  } catch (e) { /* ignore */ }
 })();

@@ -8,6 +8,8 @@ A simple, modular site. No build tools, no server, no database. Open `index.html
 ngu-site/
 ├── index.html                    ← homepage content & structure
 ├── contact.html                   ← "Холбоо барих" page (Facebook, Instagram, YouTube, email, phone)
+├── offline.html                   ← page shown instead of the browser's offline page (see "Offline page" below)
+├── sw-root.js                     ← the small worker that does that; don't edit unless you add an app folder
 ├── css/tokens.css                 ← ★ colors + fonts (change the whole look here)
 ├── css/style.css                  ← page layout and sections
 ├── css/cards.css                  ← blog + project card styles
@@ -37,6 +39,20 @@ ngu-site/
 └── tools/
     └── post-composer.html         ← ★ open this in a browser to create/edit posts, no coding
 ```
+
+## Offline page
+
+`sw-root.js` (registered by `js/main.js` on every page) does two things, and nothing else:
+
+1. When someone is offline and opens a page of this site, they see `offline.html` (in the site's own look) instead of Chrome's plain offline page. This only works for people who have visited the site once on that device, because the browser has to save the page first.
+2. It makes the app addresses **without a trailing slash** (`nextgenunion.github.io/ngworship`) open the saved app when offline. Those addresses are outside the app's own offline scope, so without this Chrome shows its own offline page even though the app is saved.
+
+Things to know:
+
+- **New app folder** on this site? Add its path to `APP_PATHS` at the top of `sw-root.js`.
+- **Changed `offline.html` or the Rubik fonts?** Change `CACHE` in `sw-root.js` (`ngu-site-v1` → `ngu-site-v2`), otherwise visitors keep the old saved copy.
+- It needs the site at the **root** of its address (as on `nextgenunion.github.io`) and https; on other hosting the page simply behaves as before.
+- To remove it: delete `sw-root.js` and `offline.html` and the "3. Offline support" block at the end of `js/main.js`. Visitors who already have it keep it until they clear site data, so replace `sw-root.js` with a file containing only `self.registration.unregister();` for a while first.
 
 ## Editing the homepage
 
