@@ -27,13 +27,20 @@ document.addEventListener('ngu:posts-ready', function(){
   if (metaDesc) metaDesc.setAttribute('content', post.excerpt);
 
   root.innerHTML = `
-    <div class="post-cover"><img src="${post.cover}" alt="${post.title}"></div>
+    <div class="post-cover"><img src="${post.cover}" alt="${post.title}"${post.coverPosition ? ` style="object-position:${post.coverPosition}"` : ''}></div>
     <div class="post-header">
       <h1>${post.title}</h1>
       <div class="post-meta">${nguPostMetaHTML(post)}</div>
     </div>
     <div class="post-body">${nguRenderMarkdown(post.body)}</div>
   `;
+
+  // Posters and other tall images: show whole instead of cropping to 16:9
+  const coverImg = root.querySelector('.post-cover img');
+  if (coverImg) {
+    const check = () => { if (coverImg.naturalHeight > coverImg.naturalWidth * 1.1) coverImg.parentElement.classList.add('is-portrait'); };
+    if (coverImg.complete) check(); else coverImg.addEventListener('load', check);
+  }
 
   const prev = posts[index + 1]; // older
   const next = posts[index - 1]; // newer

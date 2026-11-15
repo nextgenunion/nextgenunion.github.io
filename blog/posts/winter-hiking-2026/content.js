@@ -7,5 +7,5 @@ NGU_REGISTER_POST({
   "source": "https://www.facebook.com/nextgenerationunion",
   "body": "Өвлийн цэвэр агаарт Зүрх Уул руу хамтдаа алхлаа. Бидэнтэй нэгдсэн хүн бүрд баярлалаа! “Hiking with NGU” бичлэгүүдээс алхалтынхаа мөчүүдийг үзээрэй.\n\n[Манай Facebook хуудас](https://www.facebook.com/nextgenerationunion)",
   "author": "NGU",
-  "cover": "posts/winter-hiking-2026/images/cover.png"
+  "cover": "posts/winter-hiking-2026/images/cover.jpg"
 });

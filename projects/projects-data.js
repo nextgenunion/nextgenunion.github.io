@@ -9,7 +9,7 @@
      tag         — short label above the title (e.g. category)
      description — one or two sentences
      url         — the external site this card links to
-     icon        — one emoji shown next to the title
+     icon        — "music" or "link" for a line icon, or one emoji
    ============================================================ */
 const NGU_PROJECTS = [
   {
@@ -17,6 +17,6 @@ const NGU_PROJECTS = [
     tag: "Цахим төсөл",
     description: "Адвентист чуулганы дуулалын дижитал ном — дуулал хайх, үзэх боломжтой цахим хэрэгсэл.",
     url: "https://nextgenunion.github.io/ngworship/",
-    icon: "🎵"
+    icon: "music"
   }
 ];

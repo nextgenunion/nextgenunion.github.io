@@ -32,6 +32,9 @@
   margin-bottom:56px;
 }
 .post-cover img{width:100%;height:100%;object-fit:cover;display:block;}
+/* Tall covers (posters) are shown whole instead of cropped to 16:9 */
+.post-cover.is-portrait{aspect-ratio:auto;max-height:none;width:min(100%,540px);margin-inline:auto;}
+.post-cover.is-portrait img{height:auto;}
 
 .post-header{max-width:760px;margin:0 auto 44px;}
 .post-header .post-tag{margin-bottom:20px;}

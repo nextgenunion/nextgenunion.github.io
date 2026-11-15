@@ -80,7 +80,7 @@ function nguPostCardHTML(post, basePath){
   basePath = basePath || '';
   return `
     <a class="post-card" href="${basePath}post.html?slug=${encodeURIComponent(post.slug)}">
-      <div class="post-card-photo">
+      <div class="post-card-photo"${post.coverPosition ? ` style="--pos:${post.coverPosition}"` : ''}>
         <img src="${basePath}${post.cover}" alt="${post.title}" loading="lazy">
       </div>
       <div class="post-card-body">

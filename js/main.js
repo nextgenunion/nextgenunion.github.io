@@ -10,12 +10,21 @@
   const toggle = document.querySelector('.nav-toggle');
   const links  = document.querySelector('.nav-links');
   if (!toggle || !links) return;
+  const behind = [document.querySelector('main'), document.querySelector('footer'), document.querySelector('.skip-link')];
 
   function setMenu(open){
+    const was = links.classList.contains('open');
+    if (open === was) return;
     links.classList.toggle('open', open);
     toggle.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Цэс хаах' : 'Цэс нээх');
     document.documentElement.style.overflow = open ? 'hidden' : '';
+    document.body.style.overflow = open ? 'hidden' : '';
+    // Keep keyboard and screen-reader focus inside the open menu
+    behind.forEach(n => { if (n) { if (open) n.setAttribute('inert', ''); else n.removeAttribute('inert'); } });
+    if (open) { const first = links.querySelector('a'); if (first) first.focus(); }
+    else toggle.focus();
   }
   toggle.setAttribute('aria-expanded', 'false');
   toggle.addEventListener('click', () => setMenu(!links.classList.contains('open')));
@@ -24,11 +33,38 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 })();
 
+/* ---------- 1b. Highlight the section you are reading (homepage) ----------
+   Marks the matching menu link with aria-current="location". */
+(function(){
+  if (!('IntersectionObserver' in window)) return;
+  const norm = p => p.replace(/index\.html$/, '');
+  const map = new Map();
+  document.querySelectorAll('.nav-links a[href*="#"]').forEach(a => {
+    let u; try { u = new URL(a.href, location.href); } catch (e) { return; }
+    if (norm(u.pathname) !== norm(location.pathname) || !u.hash) return;
+    const target = document.querySelector(u.hash);
+    if (target) map.set(target, a);
+  });
+  if (!map.size) return;
+  function mark(a){
+    map.forEach(l => { if (l === a) l.setAttribute('aria-current', 'location'); else l.removeAttribute('aria-current'); });
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) mark(map.get(en.target)); });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  map.forEach((a, t) => io.observe(t));
+  // Back at the hero or in a section without a menu link: clear the highlight
+  const hero = document.getElementById('top');
+  if (hero) new IntersectionObserver(es => { if (es[0].isIntersecting) mark(null); }, { rootMargin: '-35% 0px -60% 0px' }).observe(hero);
+})();
+
 /* ---------- 2. Draggable stickers ----------
    Every .sticker inside a [data-board] can be dragged with a
    mouse or finger, or nudged with the arrow keys. Stickers stay
    inside the nearest [data-bounds] area and the last one you
-   touch comes to the front. Position is only kept until reload. */
+   touch comes to the front. Position is only kept until reload.
+   On a touch screen a quick swipe scrolls the page as usual; hold a
+   photo for a moment (it gives a tiny buzz) and then drag it. */
 (function(){
   const boards = document.querySelectorAll('[data-board]');
   if (!boards.length) return;
@@ -39,6 +75,7 @@
     board.querySelectorAll('.sticker').forEach(el => {
       let ox = 0, oy = 0;           // current offset in px
       let startX, startY, baseX, baseY, rect0, area, dragging = false, moved = false;
+      let holdTimer = null, pendingTouch = false;
 
       const img = el.querySelector('img');
       el.tabIndex = 0;
@@ -59,18 +96,41 @@
         ];
       }
 
-      el.addEventListener('pointerdown', e => {
-        if (e.button !== undefined && e.button !== 0) return;
+      function begin(e){
         dragging = true; moved = false;
         startX = e.clientX; startY = e.clientY; baseX = ox; baseY = oy;
         rect0 = el.getBoundingClientRect();
         area  = bounds.getBoundingClientRect();
         el.style.zIndex = ++top;
         el.classList.add('dragging');
-        el.setPointerCapture(e.pointerId);
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      el.addEventListener('pointerdown', e => {
+        if (e.button !== undefined && e.button !== 0) return;
+        if (e.pointerType === 'touch') {
+          // wait for a deliberate hold; a swipe cancels this and scrolls the page
+          pendingTouch = true; startX = e.clientX; startY = e.clientY;
+          const pe = { clientX: e.clientX, clientY: e.clientY, pointerId: e.pointerId };
+          clearTimeout(holdTimer);
+          holdTimer = setTimeout(() => {
+            if (!pendingTouch) return;
+            pendingTouch = false;
+            begin(pe);
+            if (navigator.vibrate) navigator.vibrate(8);
+          }, 260);
+          return;
+        }
+        begin(e);
         e.preventDefault();
       });
+      el.addEventListener('contextmenu', e => e.preventDefault());
+      // Once a held drag is under way, stop the page from scrolling under the finger
+      el.addEventListener('touchmove', e => { if (dragging) e.preventDefault(); }, { passive: false });
       el.addEventListener('pointermove', e => {
+        if (pendingTouch && Math.abs(e.clientX - startX) + Math.abs(e.clientY - startY) > 8) {
+          pendingTouch = false; clearTimeout(holdTimer);   // it is a scroll, not a drag
+          return;
+        }
         if (!dragging) return;
         const [dx, dy] = clampDelta(e.clientX - startX, e.clientY - startY);
         if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
@@ -78,6 +138,7 @@
         apply();
       });
       function end(e){
+        pendingTouch = false; clearTimeout(holdTimer);
         if (!dragging) return;
         dragging = false;
         el.classList.remove('dragging');

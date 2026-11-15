@@ -118,17 +118,19 @@ If the team grows and even that one step becomes a bottleneck, the real next ste
 
 ## Notes
 
-- The "Бидэнтэй холбогдох" nav buttons now link to `contact.html`, a dedicated page listing every way to reach NGU (Facebook, Instagram, YouTube, email, phone). Right now only the Facebook link (`facebook.com/nextgenerationunion`) is real — Instagram, YouTube, email, and phone are shown as "Тун удахгүй" (coming soon) placeholders because no real values were available. Once you have them, open `contact.html` and:
-  - For Instagram/YouTube: replace the `<span class="soon-badge">Тун удахгүй</span>` line in that card with a link, e.g. `<a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="btn btn-ghost">Хуудас руу очих →</a>` (copy the Facebook card's pattern).
-  - For email/phone: replace `<span class="value muted">Тун удахгүй нэмэгдэнэ</span>` with the real value, e.g. `<a class="value" href="mailto:info@nextgenunion.mn">info@nextgenunion.mn</a>`.
-- The homepage's bottom CTA panel has two buttons: "Бидэнтэй холбогдох" → `contact.html`, and "NGU-д нэгдэх" → the Facebook page directly (opens in a new tab).
+- The "Бидэнтэй холбогдох" nav buttons link to `contact.html`. Right now it shows only the real Facebook page (`facebook.com/nextgenerationunion`) and a line saying Instagram, YouTube, email and phone are coming. The page's old placeholder email, phone and example.com links were removed in v19. When real details exist, open `contact.html`; the comment inside the page shows what to paste.
+- The homepage's bottom panel has two buttons: "NGU-д нэгдэх" → the Facebook page (opens in a new tab, marked with ↗) and "Холбоо барих" → `contact.html`.
 - The site respects `prefers-reduced-motion` and is responsive from desktop down to small phones.
 - Blog pages and the Composer tool pull in [marked.js](https://marked.js.org/) from a CDN for richer Markdown rendering; if that ever fails to load (no internet), a built-in fallback still handles paragraphs, headings, bold text, links, images, and bullet lists.
 
-## Design notes (v12)
+## Design notes (v12, updated v19)
 
 - Look: a youth-group bulletin board. Photos are taped polaroids, buttons and cards are outlined stickers with a flat offset shadow, sections are colored sheets that stack as you scroll.
 - Palette (in `css/tokens.css`): `--blue` #2B3AFF, `--sun` #FFD43B, `--pink` #FF7EB6, `--mint` #8CF0C6, `--navy` #0E1038, `--chalk` #F2F1FF.
 - Fonts: Rubik for everything, Caveat for handwritten captions. Both cover Mongolian Ү/Ө. Pick any replacement with the same coverage.
 - The hero photos can be dragged (mouse, touch, or arrow keys when focused). See `js/main.js`.
-- The homepage ticker words are in `index.html`, search for `ticker-set` (two identical copies; edit both).
+- The homepage ticker repeats the five directions. Words are in `index.html`, search for `ticker-set` (two identical copies; edit both).
+- The five directions are a numbered list (`dir-row`). The "Жишээ" links point at real posts by their folder name (slug); change them if posts are renamed.
+- On a phone, a quick swipe over the hero photos scrolls the page; hold a photo for a moment to drag it.
+- A post can set `"coverPosition": "50% 0%"` in `content.js` to choose which part of its cover shows on the cards. Tall covers (posters) are shown whole on the post page.
+- Keep post cover images under about 300 KB (JPG, about 1600 px wide). The Post Composer already does this.
