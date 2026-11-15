@@ -8,3 +8,5 @@ Reviewed 15 November 2026. Four concise Mongolian summaries replace the three fi
 - Мини Олимп 2026 — Saved to Serve: https://www.facebook.com/events/3169750770080029/
 
 Prayer week is the March programme requested, rather than the separate August Youth Alive programme. Speaker names were read from the official two-part poster. Christmas is titled NGU New Year in the original post. The Christmas photo and prayer poster are official images; hiking and sports covers are typographic graphics, not event photographs.
+
+Version 17: Mini Olympics expanded using the previously reviewed event announcement and director-visit invitation. Its cover is the group photograph supplied by the user.

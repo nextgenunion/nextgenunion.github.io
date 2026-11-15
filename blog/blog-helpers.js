@@ -82,7 +82,6 @@ function nguPostCardHTML(post, basePath){
     <a class="post-card" href="${basePath}post.html?slug=${encodeURIComponent(post.slug)}">
       <div class="post-card-photo">
         <img src="${basePath}${post.cover}" alt="${post.title}" loading="lazy">
-        <span class="post-tag">${post.tag}</span>
       </div>
       <div class="post-card-body">
         <h3>${post.title}</h3>

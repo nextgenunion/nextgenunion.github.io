@@ -29,7 +29,6 @@ document.addEventListener('ngu:posts-ready', function(){
   root.innerHTML = `
     <div class="post-cover"><img src="${post.cover}" alt="${post.title}"></div>
     <div class="post-header">
-      <span class="post-tag">${post.tag}</span>
       <h1>${post.title}</h1>
       <div class="post-meta">${nguPostMetaHTML(post)}</div>
     </div>
