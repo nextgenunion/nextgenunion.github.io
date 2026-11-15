@@ -94,5 +94,5 @@ function nguPostCardHTML(post, basePath){
 
 /** "date  author" line shared by cards and article headers. */
 function nguPostMetaHTML(post){
-  return `<span>${nguFormatDate(post.date)}</span> <span style="margin-left:14px">${post.author}</span>`;
+  return `<span>${post.dateLabel || nguFormatDate(post.date)}</span> <span style="margin-left:14px">${post.author}</span>`;
 }
