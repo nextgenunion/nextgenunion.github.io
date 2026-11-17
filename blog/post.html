@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../css/cards.css">
 <link rel="stylesheet" href="../blog/blog.css">
 </head>
-<body>
+<body class="article-page">
 
 <a class="skip-link" href="#main">Агуулга руу шилжих</a>
 
@@ -38,12 +38,13 @@
   </div>
 </nav>
 
-<main id="main" style="position:relative;">
-  <div class="post-band"></div>
+<main id="main">
   <article class="post-article wrap">
-    <a href="blog.html" class="post-back">&larr; Бүх нийтлэл</a>
-    <div id="postRoot"><!-- filled in by post.js --></div>
-    <div id="postNav" class="post-nav-links"></div>
+    <a href="blog.html" class="post-back"><span aria-hidden="true">←</span> Бүх нийтлэл</a>
+    <div id="postRoot" aria-live="polite" aria-busy="true">
+      <div class="post-loading" role="status">Нийтлэлийг ачаалж байна…</div>
+    </div>
+    <nav id="postNav" class="post-nav-links" aria-label="Нийтлэлээр үргэлжлүүлэн унших" hidden></nav>
   </article>
 </main>
 

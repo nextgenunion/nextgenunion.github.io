@@ -215,7 +215,7 @@
   <section class="sheet latest" id="blog">
     <div class="wrap">
       <h2 class="sec-title sec-head">Сүүлийн нийтлэл</h2>
-      <div id="latestPostsGrid" class="post-grid"></div>
+  <div id="latestPostsGrid" class="post-grid" aria-live="polite" aria-busy="true"></div>
       <div class="more-row"><a href="blog/blog.html" class="btn btn-sun">Бүх нийтлэл үзэх</a></div>
     </div>
   </section>
@@ -285,14 +285,21 @@
 <script src="blog/blog-helpers.js"></script>
 <script src="blog/blog-loader.js"></script>
 <script>
-  document.addEventListener('ngu:posts-ready', function(){
+  function renderLatestPosts(){
     var grid = document.getElementById('latestPostsGrid');
     if (!grid) return;
     var latest = nguSortedPosts().slice(0, 3);
-    grid.innerHTML = latest.length
-      ? latest.map(function(post){ return nguPostCardHTML(post, window.NGU_BLOG_BASE); }).join('')
-      : '<p class="post-empty">Одоогоор нийтлэл алга байна.</p>';
-  });
+    if (latest.length) {
+      grid.innerHTML = latest.map(function(post){ return nguPostCardHTML(post, window.NGU_BLOG_BASE); }).join('');
+      grid.setAttribute('aria-busy', window.NGU_POSTS_READY ? 'false' : 'true');
+    } else if (window.NGU_POSTS_READY) {
+      grid.innerHTML = '<p class="post-empty">Одоогоор нийтлэл алга байна.</p>';
+      grid.setAttribute('aria-busy', 'false');
+    }
+  }
+  document.addEventListener('ngu:post-added', renderLatestPosts);
+  document.addEventListener('ngu:posts-ready', renderLatestPosts);
+  renderLatestPosts();
 </script>
 
 <!-- Projects data + homepage teaser -->

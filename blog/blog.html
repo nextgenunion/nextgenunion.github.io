@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../css/cards.css">
 <link rel="stylesheet" href="../blog/blog.css">
 </head>
-<body>
+<body class="blog-page">
 
 <a class="skip-link" href="#main">Агуулга руу шилжих</a>
 
@@ -47,9 +47,12 @@
 </header>
 
 <main id="main">
-  <section class="page-body">
+  <section class="page-body blog-listing">
     <div class="wrap">
-      <div id="blogGrid" class="post-grid"></div>
+      <p class="blog-intro">NGU-ийн үйл ажиллагаа, шинэ мэдээ болон дурсамж.</p>
+      <div id="blogGrid" class="post-grid" aria-live="polite" aria-busy="true">
+        <p class="blog-loading" role="status">Нийтлэлүүдийг ачаалж байна…</p>
+      </div>
     </div>
   </section>
 </main>

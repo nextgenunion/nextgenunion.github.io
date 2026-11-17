@@ -8,10 +8,12 @@
    ============================================================ */
 
 window.NGU_POSTS = window.NGU_POSTS || [];
+window.NGU_POSTS_READY = window.NGU_POSTS_READY || false;
 
 /** Called by each blog/posts/<slug>/content.js file. */
 function NGU_REGISTER_POST(post){
   window.NGU_POSTS.push(post);
+  document.dispatchEvent(new CustomEvent('ngu:post-added', { detail: post }));
 }
 
 /** Posts sorted newest first. */

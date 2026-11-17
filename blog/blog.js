@@ -1,13 +1,19 @@
-// Renders every registered post into the #blogGrid container, newest
-// first. Waits for "ngu:posts-ready" (fired by blog-loader.js once
-// every post folder listed in posts-manifest.js has loaded).
-document.addEventListener('ngu:posts-ready', function(){
+// Show posts as their small content files arrive instead of leaving the
+// listing blank until every post has finished loading.
+function renderBlogGrid(){
   const grid = document.getElementById('blogGrid');
   if (!grid) return;
 
   const posts = nguSortedPosts();
+  if (posts.length){
+    grid.innerHTML = posts.map(post => nguPostCardHTML(post, '')).join('');
+    grid.setAttribute('aria-busy', window.NGU_POSTS_READY ? 'false' : 'true');
+  } else if (window.NGU_POSTS_READY){
+    grid.innerHTML = '<p class="post-empty">Одоогоор нийтлэл алга байна.</p>';
+    grid.setAttribute('aria-busy', 'false');
+  }
+}
 
-  grid.innerHTML = posts.length
-    ? posts.map(post => nguPostCardHTML(post, '')).join('')
-    : '<p class="post-empty">Одоогоор нийтлэл алга байна.</p>';
-});
+document.addEventListener('ngu:post-added', renderBlogGrid);
+document.addEventListener('ngu:posts-ready', renderBlogGrid);
+renderBlogGrid();

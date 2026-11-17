@@ -14,8 +14,12 @@
 (function(){
   var base = window.NGU_BLOG_BASE || '';
   var slugs = (typeof NGU_POST_SLUGS !== 'undefined') ? NGU_POST_SLUGS : [];
+  var hasDispatchedReady = false;
 
   function ready(){
+    if (hasDispatchedReady) return;
+    hasDispatchedReady = true;
+    window.NGU_POSTS_READY = true;
     document.dispatchEvent(new Event('ngu:posts-ready'));
   }
 
